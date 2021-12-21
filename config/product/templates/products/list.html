@@ -42,46 +42,57 @@
 
     <div class="card-body">
         <div class="table-response">
-            <table class="table">
+            <table class="table" style="width:100%">
                 <thead>
                 <tr>
-                    <th>#</th>
-                    <th>Title</th>
-                    <th>Description</th>
-                    <th>Variant</th>
-                    <th width="150px">Action</th>
+                    <th style="width:5%">#</th>
+                    <th style="width:10%">Title</th>
+                    <th style="width:40%">Description</th>
+                    <th style="width:50%">Variant</th>
+                    <th width="80px">Action</th>
                 </tr>
                 </thead>
-
+                {% for data in product_qs %}
                 <tbody>
-                <tr>
-                    <td>1</td>
-                    <td>T-Shirt <br> Created at : 25-Aug-2020</td>
-                    <td>Quality product in low cost</td>
-                    <td>
-                        <dl class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
+                        <tr>
+                            <td>1</td>
+                            <td>{{ data.title }}<br> Created at : {{ data.created_at }}</td>
+                            <td>{{ data.description | truncatechars_html:200 }}</td>
+                            <td>
+                                <div class="row mb-0" style="height: 80px; overflow: hidden" id="variant">
+                                    <div class="col-sm-3 pb-0">
 
-                            <dt class="col-sm-3 pb-0">
-                                SM/ Red/ V-Nick
-                            </dt>
-                            <dd class="col-sm-9">
-                                <dl class="row mb-0">
-                                    <dt class="col-sm-4 pb-0">Price : 200.0</dt>
-                                    <dd class="col-sm-8 pb-0">InStock : 50.</dd>
-                                </dl>
-                            </dd>
-                        </dl>
-                        <button onclick="$('#variant').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
-                        </button>
-                    </td>
-                    <td>
-                        <div class="btn-group btn-group-sm">
-                            <a href="" class="btn btn-success">Edit</a>
-                        </div>
-                    </td>
-                </tr>
+                                        {% for value in ProductVariantPrice_qs %}
+                                            {% if data.title == value.product.title %}
+                                                {{ value.product_variant_one.variant_title }}/{{ value.product_variant_two.variant_title }}/{{ value.product_variant_three.variant_title }}</small><br>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                    <div class="col-sm-9">
+                                        <div class="row mb-0">
+                                            {% for value in ProductVariantPrice_qs %}
+                                            {% if data.title == value.product.title %}
+                                            <div class="col-sm-4 pb-0">Price : {{ value.price }}</div>
+                                            <div class="col-sm-8 pb-0">InStock : {{ value.stock }}</div>
+                                            {% endif %}
+                                            {% endfor %}
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <button onclick="$('#variant').toggleClass('h-auto')" class="btn btn-sm btn-link">Show more
+                                </button>
+                            </td>
+                            <td>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="" class="btn btn-success">Edit</a>
+                                </div>
+                            </td>
+                        </tr>
                 </tbody>
-
+                {% endfor %}
             </table>
 
         </div>
