@@ -95,10 +95,16 @@
     <div class="card-footer">
         <div class="row justify-content-between">
             <div class="col-md-6">
-
-<                <p>Showing 1 to 10 out of 100</p>-->
-
-
+                showing
+                {% for data in product_qs %}
+                    <tr>
+                        {{ data.id }}
+                        {% if forloop.counter == 1 %}
+                        to
+                        {% endif %}
+                    </tr>
+                {% endfor %}
+                out of {{ total_data }}
             </div>
             <div class="col-md-2">
                 <nav aria-label="Page navigation example">
